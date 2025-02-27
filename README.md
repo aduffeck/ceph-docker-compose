@@ -20,10 +20,10 @@ docker network create --driver bridge ceph-cluster-net
 
 3. up monitor and manager
 ``` bash
-docker-compose up -d mon1 mgr
+docker compose up -d mon1 mgr
 ```
 
-4. chnage max object namespace len 
+4. chnage max object namespace len
 ``` bash
 vim ${VOLUMES_PATH}/ceph/ceph.conf
 ```
@@ -39,71 +39,71 @@ osd max object namespace len = 64
 
 5. restart monitor and manager
 ``` bash
-docker-compose restart mon1 mgr
+docker compose restart mon1 mgr
 ```
 
 6. up all Object Storage Daemon
 ``` bash
-docker-compose up -d osd1 osd2 osd3
+docker compose up -d osd1 osd2 osd3
 ```
 
 7. up RADOS Gateway
 ``` bash
-docker-compose up -d rgw1
+docker compose up -d rgw1
 ```
 
 8. up Metadata Server
 ``` bash
-docker-compose up -d mds1
+docker compose up -d mds1
 ```
 
 9. enable `mgr` dashboard module
 ``` bash
-docker-compose exec mon1 ceph mgr module enable dashboard
+docker compose exec mon1 ceph mgr module enable dashboard
 ```
 
-10. create dashboard signed cert 
+10. create dashboard signed cert
 ``` bash
-docker-compose exec mon1 ceph dashboard create-self-signed-cert
+docker compose exec mon1 ceph dashboard create-self-signed-cert
 ```
 
 11.  restart `mgr` dashboard module
 ``` bash
-docker-compose exec mon1 ceph mgr module disable dashboard
-``` 
+docker compose exec mon1 ceph mgr module disable dashboard
+```
 ``` bash
-docker-compose exec mon1 ceph mgr module enable dashboard
+docker compose exec mon1 ceph mgr module enable dashboard
 ```
 
 12. bind dashport port and domain
 ``` bash
-docker-compose exec mon1 ceph config set mgr mgr/dashboard/server_addr mgr
+docker compose exec mon1 ceph config set mgr mgr/dashboard/server_addr mgr
 ```
 ``` bash
-docker-compose exec mon1 ceph config set mgr mgr/dashboard/server_port 8443
+docker compose exec mon1 ceph config set mgr mgr/dashboard/server_port 8443
 ```
 
 13.  get all mgr register services
 ``` bash
-docker-compose exec mon1 ceph mgr services
+docker compose exec mon1 ceph mgr services
 ```
 
 14. create dashboard account
 ``` bash
-docker-compose exec mon1 ceph dashboard set-login-credentials <ACCOUNT> <PASSWORD>
+docker compose exec mon1 ceph dashboard set-login-credentials <ACCOUNT> <PASSWORD>
 ```
 
 15. create rados gateway user
 ``` bash
-docker-compose exec mon1 radosgw-admin user create --uid=<UID> --display-name=<DISPLAYNAME> --system
+docker compose exec mon1 radosgw-admin user create --uid=<UID> --display-name=<DISPLAYNAME> --system
 ```
 
 16.  bind rados gatway user to dashboard
 ``` bash
-docker-compose exec mon1 ceph dashboard set-rgw-api-access-key <ACCESS_KEY>
+docker compose exec mon1 ceph dashboard set-rgw-api-access-key <ACCESS_KEY>
 ```
 ``` bash
-docker-compose exec mon1 ceph dashboard  set-rgw-api-secret-key <SECRET_KEY>
+docker compose exec mon1 ceph dashboard  set-rgw-api-secret-key <SECRET_KEY>
 ```
 
 ## Install
@@ -134,10 +134,10 @@ source .env
 
 ### up monitor and manager
 
-`docker-compose`
+`docker compose`
 
 ``` bash
-docker-compose up -d mon1 mgr
+docker compose up -d mon1 mgr
 ```
 
 `docker`
@@ -152,10 +152,10 @@ docker run -d --net=ceph-cluster-net --name=mgr -v ${VOLUMES_PATH}/ceph:/etc/cep
 
 ### up all osds
 
-`docker-compose`
+`docker compose`
 
 ``` bash
-docker-compose up -d osd1 osd2 osd3
+docker compose up -d osd1 osd2 osd3
 ```
 
 `docker`
@@ -174,10 +174,10 @@ docker run -d --net=ceph-cluster-net --name=osd3 --privileged=true --pid=host -v
 
 ### up radosgw
 
-`docker-compose`
+`docker compose`
 
 ``` bash
-docker-compose up -d rgw1
+docker compose up -d rgw1
 ```
 
 `docker`
@@ -188,10 +188,10 @@ docker run -d --net=ceph-cluster-net --name=rgw1 -v ${VOLUMES_PATH}/lib/ceph/:/v
 
 ### up Metadata Server
 
-`docker-compose`
+`docker compose`
 
 ``` bash
-docker-compose up -d mds1
+docker compose up -d mds1
 ```
 
 `docker`
@@ -202,10 +202,10 @@ docker run -d --net=ceph-cluster-net --name=mds1 -v ${VOLUMES_PATH}/lib/ceph/:/v
 
 ### Create Dashboard account
 
-`docker-compose`
+`docker compose`
 
 ``` bash
-docker-compose exec mon1 ceph dashboard set-login-credentials <user_name> <password>
+docker compose exec mon1 ceph dashboard set-login-credentials <user_name> <password>
 ```
 
 `docker`
@@ -216,10 +216,10 @@ docker exec -ti mon1 ceph dashboard set-login-credentials <user_name> <password>
 
 ### Create RGW user
 
-`docker-compose`
+`docker compose`
 
 ``` bash
-docker-compose exec mon1 radosgw-admin user create --uid="<user_id>" --display-name="<display_name>" --email="<email>"
+docker compose exec mon1 radosgw-admin user create --uid="<user_id>" --display-name="<display_name>" --email="<email>"
 ```
 
 `docker`
@@ -230,18 +230,18 @@ docker exec -ti mon1 radosgw-admin user create --uid="<user_id>" --display-name=
 
 ### show user info and set radosgw api keys
 
-`docker-compose`
+`docker compose`
 
 ``` bash
-docker-compose exec mon1 radosgw-admin user info --uid=<user_id>
+docker compose exec mon1 radosgw-admin user info --uid=<user_id>
 ```
 
 ``` bash
-docker-compose exec mon1 ceph dashboard set-rgw-api-access-key <access_key>
+docker compose exec mon1 ceph dashboard set-rgw-api-access-key <access_key>
 ```
 
 ``` bash
-docker-compose exec mon1 ceph dashboard set-rgw-api-secret-key <secret_key>
+docker compose exec mon1 ceph dashboard set-rgw-api-secret-key <secret_key>
 ```
 
 `docker`

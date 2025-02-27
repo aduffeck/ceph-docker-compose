@@ -1,12 +1,9 @@
-version: "3"
-
 networks:
   cluster-net:
-    external:
-      name: ceph-cluster-net
+    external: true
+    name: ceph-cluster-net
 
 services:
-
   mon1:
     image: ceph/daemon:${CEPH_CONTAINER_VERSION}
     command: "mon"
