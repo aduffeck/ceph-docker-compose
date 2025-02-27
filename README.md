@@ -15,7 +15,7 @@ cp env-example .env && vim .env
 
 2. create bridge network
 ``` bash
-docker network create --driver bridge ceph-cluster-net
+docker network create --driver bridge ceph-cluster-net --subnet=172.18.0.0/16
 ```
 
 3. up monitor and manager
@@ -23,9 +23,9 @@ docker network create --driver bridge ceph-cluster-net
 docker compose up -d mon1 mgr
 ```
 
-4. chnage max object namespace len
+4. change max object namespace len
 ``` bash
-vim ${VOLUMES_PATH}/ceph/ceph.conf
+vim ${VOLUMES_PATH}/ceph/ceph/ceph.conf
 ```
 ``` conf
 osd pool default min size = 2
@@ -111,7 +111,7 @@ docker compose exec mon1 ceph dashboard  set-rgw-api-secret-key <SECRET_KEY>
 ### create bridge network
 
 ``` bash
-docker network create --driver bridge ceph-cluster-net
+docker network create --driver bridge ceph-cluster-net --subnet=172.18.0.0/16
 ```
 
 ### edit environment
