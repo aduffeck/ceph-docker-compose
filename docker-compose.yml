@@ -50,6 +50,10 @@ services:
       - mon1
     networks:
       - cluster-net
+    ulimits:
+      nofile:
+        soft: "65536"
+        hard: "65536"
 
   osd2:
     pid: host
@@ -67,6 +71,10 @@ services:
       - mon1
     networks:
       - cluster-net
+    ulimits:
+      nofile:
+        soft: "65536"
+        hard: "65536"
 
   osd3:
     pid: host
@@ -84,6 +92,10 @@ services:
       - mon1
     networks:
       - cluster-net
+    ulimits:
+      nofile:
+        soft: "65536"
+        hard: "65536"
 
   rgw1:
     image: ceph/daemon:${CEPH_CONTAINER_VERSION}
